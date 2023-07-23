@@ -25,6 +25,7 @@ void IRAM_ATTR mcpIRS() {
 
 // Send UART message to BM83
 void canForward(uint8_t commandParameter) {
+    if (DEBUG) {Serial.println("---- Assembling BM83 Packet ----");}
     uint8_t packet[6];    // Fixed packet length, only intended to send "Music_Control"
     packet[0] = 0xAA;     // Start word
     packet[1] = 0x00;     // MSB of packet length
@@ -36,6 +37,7 @@ void canForward(uint8_t commandParameter) {
     uint8_t CHKSUM = 1 + ~(packet[1] + packet[2] + packet[3] + packet[4]);    // Checksum is 2's complement of byte 1-4
     packet[5] = CHKSUM;
 
+    if (DEBUG) {Serial.println("---- Sent parameter: %d", packet[4]);}
     Serial.write(packet, 6);
 }
 
@@ -81,17 +83,17 @@ void loop() {
                 uint16_t canWord = (canMsg.data[0] << 8) + canMsg.data[1];   // Adding together CAN data's MSB and LSB through 1 Byte bitshift
 
                 switch (canWord) {
-                    case 0xC80C:
-                    case 0xC40C:
+                    // case 0xC80C:
+                    // case 0xC40C:
                     case 0xE00C:
                         canForward(musicControlParameters[1]);    // Next
                     case 0xD00C:
                         canForward(musicControlParameters[2]);    // Prev
                     case 0xC10C:
                         canForward(musicControlParameters[0]);    // Play/Pause toggle
-                    case 0xC00D:
-                    case 0xC01C:
-                    case 0xC04C:
+                    // case 0xC00D:
+                    // case 0xC01C:
+                    // case 0xC04C:
                     default:
                         break;
                 }
