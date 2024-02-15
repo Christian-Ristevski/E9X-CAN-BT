@@ -18,3 +18,9 @@ Many of the E9X series of BMW cars were manufactured without support for bluetoo
 - [ ] Functional testing (Whole PCB)
 - [ ] Car installation
 - [ ] System testing
+
+## Requirements
+* Bluetooth audio compatible with all smartphones (A2DP)
+* Music controls though steering wheel (CAN bus)
+* Invisible installation (Behind Radio)
+* Runs from automotive 12 V line (Power electronics)
